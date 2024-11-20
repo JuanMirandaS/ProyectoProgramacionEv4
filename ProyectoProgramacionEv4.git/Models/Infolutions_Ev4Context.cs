@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ProyectoProgramacionEv4.git.Models;
 
-namespace ProyectoProgramacionEv4.git.DBContext
+namespace ProyectoProgramacionEv4.git.Models
 {
-    public partial class infolutions_agenda_clienteContext : DbContext
+    public partial class Infolutions_Ev4Context : DbContext
     {
-        public infolutions_agenda_clienteContext()
+        public Infolutions_Ev4Context()
         {
         }
 
-        public infolutions_agenda_clienteContext(DbContextOptions<infolutions_agenda_clienteContext> options)
+        public Infolutions_Ev4Context(DbContextOptions<Infolutions_Ev4Context> options)
             : base(options)
         {
         }
 
-        public virtual DbSet<AgendaCliente> AgendaClientes { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
         public virtual DbSet<Proyecto> Proyectos { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
@@ -27,15 +25,15 @@ namespace ProyectoProgramacionEv4.git.DBContext
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-P7V4D85\\SQLEXPRESS;Database=infolutions_agenda_cliente;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-P7V4D85\\SQLEXPRESS;Database=Infolutions_Ev4;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AgendaCliente>(entity =>
+            modelBuilder.Entity<Cliente>(entity =>
             {
-                entity.ToTable("agenda_clientes");
+                entity.ToTable("clientes");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -77,44 +75,6 @@ namespace ProyectoProgramacionEv4.git.DBContext
                     .HasColumnName("telefono");
             });
 
-            modelBuilder.Entity<Cliente>(entity =>
-            {
-                entity.ToTable("clientes");
-
-                entity.HasIndex(e => e.Correo, "UQ__clientes__2A586E0B77CE46DE")
-                    .IsUnique();
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.Correo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("correo");
-
-                entity.Property(e => e.Empresa)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("empresa");
-
-                entity.Property(e => e.FechaHoraAtencionOficina)
-                    .HasColumnType("datetime")
-                    .HasColumnName("fecha_hora_atencion_oficina");
-
-                entity.Property(e => e.FechaIngreso)
-                    .HasColumnType("date")
-                    .HasColumnName("fecha_ingreso");
-
-                entity.Property(e => e.Nombre)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("nombre");
-
-                entity.Property(e => e.Telefono)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("telefono");
-            });
-
             modelBuilder.Entity<Proyecto>(entity =>
             {
                 entity.ToTable("proyectos");
@@ -147,17 +107,17 @@ namespace ProyectoProgramacionEv4.git.DBContext
                     .WithMany(p => p.Proyectos)
                     .HasForeignKey(d => d.ClienteId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__proyectos__clien__46E78A0C");
+                    .HasConstraintName("FK__proyectos__clien__47DBAE45");
             });
 
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.ToTable("usuarios");
 
-                entity.HasIndex(e => e.Correo, "UQ__usuarios__2A586E0B5FEAA5DE")
+                entity.HasIndex(e => e.Correo, "UQ__usuarios__2A586E0BFB6E5B57")
                     .IsUnique();
 
-                entity.HasIndex(e => e.NombreUsuario, "UQ__usuarios__D4D22D74111BA0D0")
+                entity.HasIndex(e => e.NombreUsuario, "UQ__usuarios__D4D22D74D36D45D1")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
